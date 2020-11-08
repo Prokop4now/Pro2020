@@ -5,24 +5,34 @@ pygame.init()
 fps = 30
 screen = pygame.display.set_mode((500, 500))
 clock = pygame.time.Clock()
-# здесь будут рисоваться фигуры
-rect(screen, (255, 0, 255), (100,100,200,200))
-rect(screen, (0, 0, 255), (100, 100, 200, 200), 5)
-polygon(screen, (255, 255, 0), [(100,100), (200,50),
-                               (300,100), (100,100)])
 
-polygon(screen, (0, 0, 255), [(100,100), (200,50),
-                               (300,100), (100,100)], 5)
-circle(screen, (0, 255, 0), (200, 175), 50)
-circle(screen, (255, 255, 255), (200, 175), 50, 5)
 
-# после чего, чтобы они отобразились на экране, экран нужно обновить:
+def draw_bear(surface, x, y, height, width, color):
+    x_head = x
+    y_head = y
+    height_head = 0.2 * height
+    width_head = height_head
 
-# Эту же команду нужно будет повторять, если на экране происходят изменения.
+    x_body = x - width_head//2
+    y_body = y_head - height_head // 2
+    body_height = 0.5 * height
+    body_width = height_head * 2
 
-# Наконец, нужно создать основной цикл, в котором будут отслеживаться
-# происходящие события.
-# Пока единственное событие, которое нас интересует - выход из программы.
+    draw_head(surface, x_head, y_head, height_head, width_head, color)
+
+    draw_body(surface, x_body, y_body, body_height, body_width, color)
+
+
+def draw_head(surface, x, y, height, width, color):
+    circle(surface,color, (x, y), height*2)
+
+
+def draw_body(surface, x, y, height, width, color):
+    ellipse(surface, color, (x, y, height, width))
+
+
+draw_bear(screen, 250, 250, 100, 100, (200, 200, 200))
+
 pygame.display.update()
 finished = False
 while not finished:
