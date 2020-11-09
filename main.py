@@ -1,43 +1,49 @@
 import pygame
 from pygame.draw import *
-
+from random import randint
 pygame.init()
-fps = 30
-screen = pygame.display.set_mode((500, 500))
-clock = pygame.time.Clock()
+
+FPS = 2
+screen = pygame.display.set_mode((1200, 900))
+
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+MAGENTA = (255, 0, 255)
+CYAN = (0, 255, 255)
+BLACK = (0, 0, 0)
+COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 
-def draw_bear(surface, x, y, height, width, color):
-    x_head = x
-    y_head = y
-    height_head = 0.2 * height
-    width_head = height_head
+def click(event):
+    print(x, y, r)
 
-    x_body = x - width_head//2
-    y_body = y_head - height_head // 2
-    body_height = 0.5 * height
-    body_width = height_head * 2
-
-    draw_head(surface, x_head, y_head, height_head, width_head, color)
-
-    draw_body(surface, x_body, y_body, body_height, body_width, color)
-
-
-def draw_head(surface, x, y, height, width, color):
-    circle(surface,color, (x, y), height*2)
-
-
-def draw_body(surface, x, y, height, width, color):
-    ellipse(surface, color, (x, y, height, width))
-
-
-draw_bear(screen, 250, 250, 100, 100, (200, 200, 200))
+def new_ball():
+    global x, y, r
+    '''рисует новый шарик '''
+    x = randint(100, 1100)
+    y = randint(100, 900)
+    r = randint(10, 100)
+    color = COLORS[randint(0, 5)]
+    circle(screen, color, (x, y), r)
 
 pygame.display.update()
+clock = pygame.time.Clock()
 finished = False
+
 while not finished:
-    clock.tick(fps)
+    clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            click(event)
+            print('Click!')
+
+
+    new_ball()
+    pygame.display.update()
+    screen.fill(BLACK)
+
 pygame.quit()
